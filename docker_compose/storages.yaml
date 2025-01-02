@@ -1,0 +1,35 @@
+version: '3.9'
+
+services:
+  postgres:
+    image: postgres:latest
+    container_name: example-db
+    ports:
+      - "${POSTGRES_PORT}:5432"
+    volumes:
+      - local_pgdata:/var/lib/postgresql/data
+    env_file:
+      - ../.env
+    networks:
+      - backend
+  pgadmin4:
+    container_name: pgadmin4
+    image: dpage/pgadmin4
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_EMAIL}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_PASSWORD}
+    ports:
+      - "${PGADMIN_PORT}:80"
+    volumes:
+      - pgadmin-data:/var/lib/pgadmin
+    networks:
+      - backend
+
+volumes:
+  local_pgdata:
+  pgadmin-data:
+
+networks:
+  backend:
+    driver: bridge
