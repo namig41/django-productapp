@@ -1,5 +1,27 @@
-from pydantic import BaseModel
+from typing import Any, Generic, TypeVar
+
+from pydantic import BaseModel, Field
+
+TData = TypeVar("TData")
+TListItem = TypeVar("TListItem")
 
 
 class PingResponseSchema(BaseModel):
     result: bool
+
+
+class PaginationOut(BaseModel):
+    offset: int
+    limit: int
+    total: int
+
+
+class ListPaginatedResponse(BaseModel, Generic[TListItem]):
+    items: list[TListItem]
+    pagination: PaginationOut
+
+
+class ApiResponse(BaseModel, Generic[TData]):
+    data: TData | dict = Field(default_factory=dict)
+    meta: dict[str, Any] = Field(default_factory=dict)
+    errors: list[Any] = Field(default_factory=list)

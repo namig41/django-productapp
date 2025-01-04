@@ -2,7 +2,7 @@ from django.db import models
 
 
 class TimeBaseModel(models.Model):
-    create_at = models.DateTimeField(
+    created_at = models.DateTimeField(
         verbose_name="Дата создания",
         auto_now_add=True,
     )

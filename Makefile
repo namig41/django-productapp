@@ -11,7 +11,7 @@ MANAGE_PY = python manage.py
 storages-start:
 	${DC} -f ${STORAGES_FILE} up -d
 
-.PHONY: storages
+.PHONY: storages-drop
 storages-drop:
 	${DC} -f ${STORAGES_FILE} down
 
