@@ -1,8 +1,8 @@
-import random
 from abc import (
     ABC,
     abstractmethod,
 )
+from random import SystemRandom
 
 from django.core.cache import cache
 
@@ -22,8 +22,7 @@ class BaseCodeService(ABC):
 
 class DjangoCacheCodeService(BaseCodeService):
     def generate_code(self, customer: CustomerEntity) -> str:
-        rng = random.SystemRandom()
-        code = str(rng.randint(100000, 999999))
+        code = str(SystemRandom().randint(100000, 999999))
         cache.set(customer.phone, code)
 
         return code
