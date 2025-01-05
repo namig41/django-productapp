@@ -18,12 +18,10 @@ class BaseProductService(ABC):
         self,
         filters: ProductFilters,
         pagination: PaginationIn,
-    ) -> Iterable[Product]:
-        ...
+    ) -> Iterable[Product]: ...
 
     @abstractmethod
-    def get_product_count(self, filters: ProductFilters) -> int:
-        ...
+    def get_product_count(self, filters: ProductFilters) -> int: ...
 
 
 class ORMProductService(BaseProductService):
