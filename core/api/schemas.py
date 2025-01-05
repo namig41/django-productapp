@@ -1,6 +1,16 @@
-from typing import Any, Generic, TypeVar
+from typing import (
+    Any,
+    Generic,
+    TypeVar,
+)
 
-from pydantic import BaseModel, Field
+from pydantic import (
+    BaseModel,
+    Field,
+)
+
+from core.api.filters import PaginationOut
+
 
 TData = TypeVar("TData")
 TListItem = TypeVar("TListItem")
@@ -8,12 +18,6 @@ TListItem = TypeVar("TListItem")
 
 class PingResponseSchema(BaseModel):
     result: bool
-
-
-class PaginationOut(BaseModel):
-    offset: int
-    limit: int
-    total: int
 
 
 class ListPaginatedResponse(BaseModel, Generic[TListItem]):
