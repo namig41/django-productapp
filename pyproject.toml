@@ -16,6 +16,15 @@ pre-commit = "^4.0.1"
 black = "^24.10.0"
 
 
+[tool.poetry.group.dev.dependencies]
+faker = "^33.3.0"
+pytest = "^8.3.4"
+pytest-django = "^4.9.0"
+factory-boy = "^3.3.1"
+
+[tool.pytest.ini_options]
+DJANGO_SETTINGS_MODULE = "core.project.settings.local"
+
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"

@@ -15,15 +15,18 @@ from core.apps.products.models.products import Product as ProductModel
 class BaseProductService(ABC):
     @abstractmethod
     def get_product_list(
-        self, filters: ProductFilters, pagination: PaginationIn,
-    ) -> Iterable[Product]: ...
+        self,
+        filters: ProductFilters,
+        pagination: PaginationIn,
+    ) -> Iterable[Product]:
+        ...
 
     @abstractmethod
-    def get_product_count(self, filters: ProductFilters) -> int: ...
+    def get_product_count(self, filters: ProductFilters) -> int:
+        ...
 
 
 class ORMProductService(BaseProductService):
-
     def _build_product_query(self, filters: ProductFilters) -> Q:
         query = Q(is_visible=True)
 
@@ -35,14 +38,18 @@ class ORMProductService(BaseProductService):
         return query
 
     def get_product_list(
-        self, filters: ProductFilters, pagination: PaginationIn,
+        self,
+        filters: ProductFilters,
+        pagination: PaginationIn,
     ) -> Iterable[Product]:
         query = self._build_product_query(filters)
         qs = ProductModel.objects.filter(query)[
             pagination.offset:pagination.offset + pagination.limit
         ]
+
         return [product.to_entity() for product in qs]
 
     def get_product_count(self, filters: ProductFilters) -> int:
         query = self._build_product_query(filters)
+
         return ProductModel.objects.filter(query).count()
