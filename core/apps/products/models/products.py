@@ -1,10 +1,10 @@
 from django.db import models
 
-from core.apps.common.models import TimeBaseModel
+from core.apps.common.models import TimedBaseModel
 from core.apps.products.entities.products import Product as ProductEntity
 
 
-class Product(TimeBaseModel):
+class Product(TimedBaseModel):
     title = models.CharField(
         verbose_name="Название продукта",
         max_length=255,

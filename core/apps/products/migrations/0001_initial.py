@@ -7,23 +7,49 @@ class Migration(migrations.Migration):
 
     initial = True
 
-    dependencies = [
-    ]
+    dependencies = []
 
     operations = [
         migrations.CreateModel(
-            name='Product',
+            name="Product",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('create_at', models.DateTimeField(auto_now_add=True, verbose_name='Дата создания')),
-                ('updated_at', models.DateTimeField(auto_now=True, verbose_name='Дата обновления')),
-                ('title', models.CharField(max_length=255, verbose_name='Название продукта')),
-                ('description', models.TextField(blank=True, verbose_name='Описание товара')),
-                ('is_visible', models.BooleanField(default=True, verbose_name='Виден ли товар в каталоге')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "create_at",
+                    models.DateTimeField(
+                        auto_now_add=True, verbose_name="Дата создания"
+                    ),
+                ),
+                (
+                    "updated_at",
+                    models.DateTimeField(auto_now=True, verbose_name="Дата обновления"),
+                ),
+                (
+                    "title",
+                    models.CharField(max_length=255, verbose_name="Название продукта"),
+                ),
+                (
+                    "description",
+                    models.TextField(blank=True, verbose_name="Описание товара"),
+                ),
+                (
+                    "is_visible",
+                    models.BooleanField(
+                        default=True, verbose_name="Виден ли товар в каталоге"
+                    ),
+                ),
             ],
             options={
-                'verbose_name': 'Товар',
-                'verbose_name_plural': 'Товары',
+                "verbose_name": "Товар",
+                "verbose_name_plural": "Товары",
             },
         ),
     ]

@@ -19,7 +19,7 @@ from core.apps.customers.services.auth import (
 from core.apps.customers.services.codes import DjangoCacheCodeService
 from core.apps.customers.services.customers import ORMCustomerService
 from core.apps.customers.services.senders import DummySenderService
-from core.apps.products.containers import get_container
+from project.containers import get_container
 
 
 router = Router(tags=["Customers"])
