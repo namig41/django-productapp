@@ -31,7 +31,8 @@ def get_product_list_handler(
     container: Container = get_container()
     service: BaseProductService = container.resolve(BaseProductService)
     product_list = service.get_product_list(
-        filters=ProductFiltersEntity(search=filters.search), pagination=pagination_in,
+        filters=ProductFiltersEntity(search=filters.search),
+        pagination=pagination_in,
     )
     product_count = service.get_product_count(filters=filters)
     items = [ProductSchema.from_entity(obj) for obj in product_list]
