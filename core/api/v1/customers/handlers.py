@@ -11,14 +11,8 @@ from core.api.v1.customers.schemas import (
     TokenInSchema,
     TokenOutSchema,
 )
-from core.apps.common.exception import ServiceException
-from core.apps.customers.services.auth import (
-    AuthService,
-    BaseAuthService,
-)
-from core.apps.customers.services.codes import DjangoCacheCodeService
-from core.apps.customers.services.customers import ORMCustomerService
-from core.apps.customers.services.senders import DummySenderService
+from core.app.common.exceptions import ServiceException
+from core.app.customers.services.auth import BaseAuthService
 from core.project.containers import get_container
 
 
@@ -46,11 +40,8 @@ def get_token_handler(
     request: HttpResponse,
     schema: TokenInSchema,
 ) -> ApiResponse[TokenOutSchema]:
-    service = AuthService(
-        customer_service=ORMCustomerService(),
-        codes_service=DjangoCacheCodeService(),
-        sender_service=DummySenderService(),
-    )
+    conainter: Container = get_container()
+    service: BaseAuthService = conainter.resolve(BaseAuthService)
 
     try:
         token = service.confirm(schema.code, schema.phone)

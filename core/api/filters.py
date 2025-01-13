@@ -16,4 +16,4 @@ class PaginationIn(Schema):
 
 
 class DefaultFilter(Enum):
-    NO_SET: Any
+    NOT_SET: Any

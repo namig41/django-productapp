@@ -1,5 +1,3 @@
-from datetime import datetime
-
 from django.http import HttpResponse
 from ninja import (
     Header,
@@ -7,14 +5,15 @@ from ninja import (
 )
 from ninja.errors import HttpError
 
-from apps.common.exception import ServiceException
 from core.api.schemas import ApiResponse
 from core.api.v1.reviews.schemas import (
-    CreateReviewOutSchema,
-    CreateReviewSchema,
     ReviewInSchema,
+    ReviewOutSchema,
 )
-from project.containers import get_container
+from core.app.common.exceptions import ServiceException
+from core.app.products.entities.reviews import Review as ReviewEntity
+from core.app.products.use_cases.reviews.create import CreateReviewUseCase
+from core.project.containers import get_container
 
 
 router = Router(tags=["Reviews"])
@@ -22,7 +21,7 @@ router = Router(tags=["Reviews"])
 
 @router.post(
     "products/{product_id}",
-    response=ApiResponse[CreateReviewOutSchema],
+    response=ApiResponse[ReviewOutSchema],
     operation_id="createReview",
 )
 def create_review(
@@ -30,25 +29,22 @@ def create_review(
     product_id: int,
     schema: ReviewInSchema,
     token: str = Header(alias="Auth-Token"),
-) -> ApiResponse[CreateReviewOutSchema]:
-    create_schema = CreateReviewSchema(
-        product_id=product_id,
-        customer_token=token,
-        review=schema,
-    )
+) -> ApiResponse[ReviewOutSchema]:
+    container = get_container()
+    use_case: CreateReviewUseCase = container.resolve(CreateReviewUseCase)
 
-    get_container()
     try:
-        create_schema.construct()
+        review: ReviewEntity = use_case.execute(
+            customer_token=token,
+            product_id=product_id,
+            review=schema.to_entity(),
+        )
     except ServiceException as exception:
-        raise HttpError(status_code=400, message=exception.message)
+        raise HttpError(
+            status_code=400,
+            message=exception.message,
+        )
 
     return ApiResponse(
-        data=CreateReviewOutSchema(
-            rating=1,
-            text="Text",
-            id=1,
-            created_at=datetime.now(),
-            updated_at=None,
-        ),
+        data=ReviewOutSchema.from_entity(review),
     )

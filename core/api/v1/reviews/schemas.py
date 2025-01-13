@@ -2,10 +2,18 @@ from datetime import datetime
 
 from pydantic import BaseModel
 
+from core.app.products.entities.reviews import Review as ReviewEntity
+
 
 class ReviewInSchema(BaseModel):
-    rating: int
     text: str
+    rating: int
+
+    def to_entity(self) -> ReviewEntity:
+        return ReviewEntity(
+            text=self.text,
+            rating=self.rating,
+        )
 
 
 class CreateReviewSchema(BaseModel):
@@ -14,7 +22,17 @@ class CreateReviewSchema(BaseModel):
     review: ReviewInSchema
 
 
-class CreateReviewOutSchema(ReviewInSchema):
+class ReviewOutSchema(ReviewInSchema):
     id: int
     created_at: datetime | None
     updated_at: datetime | None
+
+    @classmethod
+    def from_entity(cls, review: ReviewEntity) -> "ReviewOutSchema":
+        return cls(
+            id=review.id,
+            text=review.text,
+            rating=review.rating,
+            created_at=review.created_at,
+            updated_at=review.updated_at,
+        )
