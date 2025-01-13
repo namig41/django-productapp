@@ -24,6 +24,8 @@ class CreateReviewSchema(BaseModel):
 
 class ReviewOutSchema(ReviewInSchema):
     id: int
+    text: str
+    rating: int
     created_at: datetime | None
     updated_at: datetime | None
 

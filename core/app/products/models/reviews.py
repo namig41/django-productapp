@@ -35,7 +35,7 @@ class Review(TimedBaseModel):
         return cls(
             pk=review.id,
             product_id=product.id,
-            cusomter_id=customer.id,
+            customer_id=customer.id,
             text=review.text,
             rating=review.rating,
         )
@@ -44,7 +44,7 @@ class Review(TimedBaseModel):
         self,
     ) -> ReviewEntity:
         return ReviewEntity(
-            text=self.rating,
+            text=self.text,
             rating=self.rating,
             id=self.id,
             created_at=self.created_at,

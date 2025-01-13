@@ -44,7 +44,6 @@ def create_review(
             status_code=400,
             message=exception.message,
         )
-
     return ApiResponse(
         data=ReviewOutSchema.from_entity(review),
     )

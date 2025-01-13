@@ -28,7 +28,7 @@ class CreateReviewUseCase:
             review=review, customer=customer, product=product,
         )
         saved_review: ReviewEntity = self.review_service.save_review(
-            product, customer, review,
+            product=product, customer=customer, review=review,
         )
 
         return saved_review
