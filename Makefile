@@ -1,6 +1,7 @@
 DC = docker compose
 APP_FILE = docker_compose/app.yaml
 STORAGES_FILE = docker_compose/storages.yaml
+MONITORING_FILE = docker_compose/monitoring.yaml
 EXEC = docker exec -it
 DB_CONTAINER =  example-db
 APP_CONTAINER = main-app
@@ -54,3 +55,11 @@ collectstatic:
 .PHONY: run-test
 run-test:
 	${EXEC} ${APP_CONTAINER} pytest
+
+.PHONY: monitoring
+monitoring:
+	${DC} -f ${MONITORING_FILE} ${ENV} up --build -d
+
+.PHONY: monitoring-logs
+monitoring-logs:
+	${DC} -f ${MONITORING_FILE} ${ENV} logs -f
