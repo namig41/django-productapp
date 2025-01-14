@@ -19,16 +19,23 @@ class CreateReviewUseCase:
     validator_service: BaseReviewValidatorService
 
     def execute(
-        self, customer_token: str, product_id: int, review: ReviewEntity,
+        self,
+        customer_token: str,
+        product_id: int,
+        review: ReviewEntity,
     ) -> ReviewEntity:
         customer: Customer = self.customer_service.get_by_token(token=customer_token)
         product: ProductEntity = self.product_service.get_by_id(product_id=product_id)
 
         self.validator_service.validate(
-            review=review, customer=customer, product=product,
+            review=review,
+            customer=customer,
+            product=product,
         )
         saved_review: ReviewEntity = self.review_service.save_review(
-            product=product, customer=customer, review=review,
+            product=product,
+            customer=customer,
+            review=review,
         )
 
         return saved_review
